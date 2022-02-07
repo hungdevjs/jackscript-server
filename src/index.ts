@@ -1,6 +1,10 @@
 import express from "express";
 import { Request, Response } from "express";
 
+import seed from "../seed";
+
+seed();
+
 const app = express();
 
 app.get("/", (req: Request, res: Response) => {

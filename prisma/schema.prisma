@@ -1,0 +1,97 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+model Tip {
+  id      String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  image   String
+  title   String
+  bodyEn  String
+  bodyVi  String
+  UserTip UserTip[]
+}
+
+model Course {
+  id         String       @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  lessons    Lesson[]
+  UserCourse UserCourse[]
+}
+
+model Lesson {
+  id         String       @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  videoSrc   String
+  examSrc    String
+  course     Course       @relation(fields: [courseId], references: [id])
+  courseId   String       @db.ObjectId
+  UserCourse UserCourse[]
+}
+
+model User {
+  id         String       @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  email      String       @unique
+  name       String
+  role       Role         @default(USER)
+  level      Int          @default(1)
+  plan       Plan         @default(FREE)
+  createdAt  DateTime     @default(now())
+  UserTip    UserTip[]
+  UserCourse UserCourse[]
+}
+
+model UserTip {
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  tip       Tip      @relation(fields: [tipId], references: [id])
+  tipId     String   @db.ObjectId
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
+
+model UserCourse {
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String   @db.ObjectId
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  Lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  lessonId  String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
+
+model Roadmap {
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  level     Int      @unique
+  name      String
+  content   String
+  image     String
+  courseIds String[]
+}
+
+model Faq {
+  id       String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  question String
+  answer   String
+}
+
+model Log {
+  id      String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  content String
+  time    DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Plan {
+  FREE
+  SILVER
+  GOLD
+}
