@@ -3,14 +3,18 @@ import { Request, Response } from "express";
 
 import seed from "../seed";
 
-seed();
+const main = async () => {
+  await seed();
 
-const app = express();
+  const app = express();
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Application works!");
-});
+  app.get("/", (req: Request, res: Response) => {
+    res.send("Application works!");
+  });
 
-app.listen(8000, () => {
-  console.log("Application started on port 3000!");
-});
+  app.listen(8000, () => {
+    console.log("Application started on port 3000!");
+  });
+};
+
+main();

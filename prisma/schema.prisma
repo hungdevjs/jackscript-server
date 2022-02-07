@@ -36,6 +36,7 @@ model User {
   id         String       @id @default(dbgenerated()) @map("_id") @db.ObjectId
   email      String       @unique
   name       String
+  password   String
   role       Role         @default(USER)
   level      Int          @default(1)
   plan       Plan         @default(FREE)
