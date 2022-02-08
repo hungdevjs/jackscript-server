@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 
 import Errors from "../utils/Errors";
+import environment from "../utils/environment";
 
 const prisma = new PrismaClient();
 
@@ -26,8 +27,8 @@ export const logIn = async ({ email, password }) => {
     level: user.level,
   };
 
-  const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET_KEY, {
-    expiresIn: process.env.JWT_ACCESS_TOKEN_LIFE,
+  const accessToken = jwt.sign(data, environment.JWT_ACCESS_TOKEN_SECRET_KEY, {
+    expiresIn: environment.JWT_ACCESS_TOKEN_LIFE,
   });
 
   return { data, accessToken };

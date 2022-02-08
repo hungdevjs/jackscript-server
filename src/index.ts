@@ -5,6 +5,11 @@ import dotenv from "dotenv";
 
 import seed from "../seed";
 import routes from "./routes/index";
+import environment from "./utils/environment";
+
+// import { getSamples, generateSignature } from "./services/cloudinary.service";
+// getSamples();
+// console.log({ response: generateSignature() });
 
 dotenv.config();
 
@@ -25,7 +30,7 @@ const main = async () => {
 
   app.use("/api", routes);
 
-  app.listen(process.env.PORT, () => console.log(`App is running on port ${process.env.PORT}`));
+  app.listen(environment.PORT, () => console.log(`App is running on port ${environment.PORT}`));
 };
 
 main();
