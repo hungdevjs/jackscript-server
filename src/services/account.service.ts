@@ -33,3 +33,24 @@ export const logIn = async ({ email, password }) => {
 
   return { data, accessToken };
 };
+
+export const getInfo = async (token: string) => {
+  jwt.verify(token, environment.JWT_ACCESS_TOKEN_SECRET_KEY);
+  //@ts-ignore
+  const userInfo = jwt.decode(token, environment.JWT_ACCESS_TOKEN_SECRET_KEY);
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userInfo.id,
+    },
+  });
+  if (!user) throw new Error(Errors.BadCredential);
+
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    plan: user.plan,
+    level: user.level,
+  };
+};
