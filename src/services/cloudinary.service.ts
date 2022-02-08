@@ -11,7 +11,7 @@ cloudinary.v2.config({
 
 export const getSamples = async () => {
   try {
-    const result = await cloudinary.v2.api.resources_by_ids("samples/landscapes/landscape-panorama");
+    const result = await cloudinary.v2.api.resources({ type: "upload", prefix: "tips" });
     console.log(result);
   } catch (err) {
     console.error(err);

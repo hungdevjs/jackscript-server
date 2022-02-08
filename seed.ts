@@ -3,6 +3,11 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const tipImage = "https://res.cloudinary.com/dzlqhq434/image/upload/v1644311731/tips/Emi-ZnAVkAEqtVq_esdtmh.jpg";
+const tipTitle = "Object methods";
+const tipBodyEn = "Understand object methods better";
+const tipBodyVi = "Hiểu hơn về object methods";
+
 const seed = async () => {
   await prisma.$connect();
 
@@ -20,6 +25,20 @@ const seed = async () => {
       });
     }
     console.log("Init users successfully");
+
+    console.log("Init tips...");
+    const tips = await prisma.tip.findMany();
+    if (!tips.length) {
+      await prisma.tip.create({
+        data: {
+          image: tipImage,
+          title: tipTitle,
+          bodyEn: tipBodyEn,
+          bodyVi: tipBodyVi,
+        },
+      });
+    }
+    console.log("Init tips successfully");
 
     console.log("Init data successfully");
   } catch (err) {
