@@ -19,14 +19,19 @@ model Tip {
 }
 
 model Course {
-  id         String       @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  lessons    Lesson[]
-  UserCourse UserCourse[]
+  id            String       @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name          String
+  descriptionEn String
+  descriptionVi String
+  level         UserLevel   @default(NEWBIE)
+  lessons       Lesson[]
+  UserCourse    UserCourse[]
 }
 
 model Lesson {
   id         String       @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  videoSrc   String
+  order      Int
+  videoId    String
   examSrc    String
   course     Course       @relation(fields: [courseId], references: [id])
   courseId   String       @db.ObjectId
@@ -39,7 +44,7 @@ model User {
   name       String
   password   String
   role       Role         @default(USER)
-  level      Int          @default(1)
+  level      UserLevel    @default(NEWBIE)
   plan       Plan         @default(FREE)
   createdAt  DateTime     @default(now())
   UserTip    UserTip[]
@@ -67,18 +72,20 @@ model UserCourse {
 }
 
 model Roadmap {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  level     Int      @unique
-  name      String
-  content   String
-  image     String
-  courseIds String[]
+  id              String      @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  level           UserLevel   @default(NEWBIE)
+  name            String
+  descriptionEn   String
+  descriptionVi   String
+  image           String
 }
 
 model Faq {
-  id       String @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  question String
-  answer   String
+  id         String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  questionEn String
+  questionVi String
+  answerEn   String
+  answerVi   String
 }
 
 model Log {
@@ -96,4 +103,11 @@ enum Plan {
   FREE
   SILVER
   GOLD
+}
+
+enum UserLevel {
+  NEWBIE
+  FRESHER
+  JUNIOR
+  SENIOR
 }
