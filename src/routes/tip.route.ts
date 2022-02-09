@@ -3,6 +3,6 @@ import * as controller from "../controllers/tip.controller";
 
 const router = express.Router();
 
-router.get("/", controller.getTip);
+router.get("/", controller.get);
 
 export default router;

@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getRoadmap = async () => {
+export const get = async () => {
   const roadmaps = await prisma.roadmap.findMany();
 
   const courses = await prisma.course.findMany();

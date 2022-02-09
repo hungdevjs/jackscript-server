@@ -3,6 +3,6 @@ import * as controller from "../controllers/roadmap.controller";
 
 const router = express.Router();
 
-router.get("/", controller.getRoadmap);
+router.get("/", controller.get);
 
 export default router;
