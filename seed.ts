@@ -4,7 +4,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const tipImage = "https://res.cloudinary.com/dzlqhq434/image/upload/v1644311731/tips/Emi-ZnAVkAEqtVq_esdtmh.jpg";
-const tipTitle = "Object methods";
+const tipTitleEn = "Object methods";
+const tipTitleVi = "Object methods";
 const tipBodyEn = "Understand object methods better";
 const tipBodyVi = "Hiểu hơn về object methods";
 
@@ -32,7 +33,8 @@ const seed = async () => {
       await prisma.tip.create({
         data: {
           image: tipImage,
-          title: tipTitle,
+          titleEn: tipTitleEn,
+          titleVi: tipTitleVi,
           bodyEn: tipBodyEn,
           bodyVi: tipBodyVi,
         },

@@ -11,7 +11,8 @@ generator client {
 model Tip {
   id      String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
   image   String
-  title   String
+  titleEn String
+  titleVi String
   bodyEn  String
   bodyVi  String
   UserTip UserTip[]
