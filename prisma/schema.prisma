@@ -23,7 +23,7 @@ model Course {
   name          String
   descriptionEn String
   descriptionVi String
-  level         UserLevel   @default(NEWBIE)
+  level         UserLevel    @default(NEWBIE)
   lessons       Lesson[]
   UserCourse    UserCourse[]
 }

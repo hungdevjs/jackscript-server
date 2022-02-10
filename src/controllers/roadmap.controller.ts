@@ -7,6 +7,6 @@ export const get = async (req: Request, res: Response) => {
     const data = await service.get();
     res.status(200).send(data);
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(400).send(err.message);
   }
 };
