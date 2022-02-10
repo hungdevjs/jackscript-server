@@ -140,12 +140,16 @@ const seed = async () => {
           data: [
             {
               order: 1,
+              nameEn: "Lesson 1",
+              nameVi: "Bài giảng 1",
               courseId: newCourse.id,
               videoId: "6lH-6Y805L4",
               examSrc: "https://replit.com/@hungdevjs/excelcomparing",
             },
             {
               order: 2,
+              nameEn: "Lesson 2",
+              nameVi: "Bài giảng 2",
               courseId: newCourse.id,
               videoId: "6lH-6Y805L4",
               examSrc: "https://replit.com/@hungdevjs/excelcomparing",
