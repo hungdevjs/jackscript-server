@@ -24,6 +24,7 @@ model Course {
   descriptionEn String
   descriptionVi String
   level         UserLevel    @default(NEWBIE)
+  image         String
   lessons       Lesson[]
   UserCourse    UserCourse[]
 }

@@ -45,10 +45,21 @@ const seed = async () => {
     console.log("Init courses...");
     const courses = await prisma.course.findMany();
     if (!courses.length) {
+      const images = {
+        jsBasic: "https://res.cloudinary.com/dzlqhq434/image/upload/v1644478248/courses/javascript_udds8e.png",
+        html5: "https://res.cloudinary.com/dzlqhq434/image/upload/v1644478247/courses/html5_vyjkhw.png",
+        css3: "https://res.cloudinary.com/dzlqhq434/image/upload/v1644478247/courses/css3_oiqvtp.png",
+        jsDom: "https://res.cloudinary.com/dzlqhq434/image/upload/v1644478248/courses/javascript2_cw08bs.png",
+        jsAdvanced: "https://res.cloudinary.com/dzlqhq434/image/upload/v1644478247/courses/javascript3_pnwvnv.png",
+        expressjs: "https://res.cloudinary.com/dzlqhq434/image/upload/v1644478247/courses/nodejs_cmhaw0.png",
+        reactjs: "https://res.cloudinary.com/dzlqhq434/image/upload/v1644478248/courses/react_ahsyzj.png",
+        senior: "https://res.cloudinary.com/dzlqhq434/image/upload/v1644478527/courses/hacker_h9ue9f.png",
+      };
       const courses = [
         {
           name: "JavaScript basics",
           level: "NEWBIE",
+          image: images.jsBasic,
           descriptionEn:
             "Familiarize newbies with basic syntaxs and mindset of JavaScript. After completing this course, you can do a simple management system for library, store or school on CLI.",
           descriptionVi:
@@ -57,6 +68,7 @@ const seed = async () => {
         {
           name: "HTML basics",
           level: "NEWBIE",
+          image: images.html5,
           descriptionEn:
             "Familiarize newbies with basic syntaxs of HTML. After completing this course, you can do a simple e-book.",
           descriptionVi:
@@ -65,6 +77,7 @@ const seed = async () => {
         {
           name: "CSS basics",
           level: "NEWBIE",
+          image: images.css3,
           descriptionEn:
             "Familiarize newbies with basic syntaxs of CSS. After completing this course, you can make a beatiful static website.",
           descriptionVi:
@@ -73,14 +86,16 @@ const seed = async () => {
         {
           name: "JavaScript DOM",
           level: "FRESHER",
+          image: images.jsDom,
           descriptionEn:
-            "Familiarize newbies with basic syntaxs of JavaScript in interating with DOM elements. After completing this course, you can make a completely statis website",
+            "Familiarize newbies with basic syntaxs of JavaScript in interating with DOM elements. After completing this course, you can make a completely statis website.",
           descriptionVi:
             "Làm quen với cú pháp cơ bản của JavaScript khi tương tác với các phần tử của trang web. Sau khi hoàn thành khóa học này, các bạn có thể xây dựng một website tĩnh hoàn thiện.",
         },
         {
           name: "JavaScript Advanced",
           level: "JUNIOR",
+          image: images.jsAdvanced,
           descriptionEn:
             "Familiarize newbies with advanced syntaxs and features of JavaScript. After completing this course, you can be ready to learn React.js.",
           descriptionVi:
@@ -89,29 +104,33 @@ const seed = async () => {
         {
           name: "Express.js",
           level: "JUNIOR",
+          image: images.expressjs,
           descriptionEn: "Build web server using the most common JavaScript backend framework Express.js.",
           descriptionVi: "Xây dựng web server sử dụng backend framework phổ biến nhất của JavaScript - Express.js.",
         },
         {
           name: "React.js",
           level: "JUNIOR",
+          image: images.reactjs,
           descriptionEn: "Build web UI using the most common JavaScript frontend library React.js.",
           descriptionVi: "Xây dựng giao diện web sử dụng thư viện frontend phổ biến nhất của JavaScript - React.js.",
         },
         {
           name: "School management system",
           level: "SENIOR",
+          image: images.senior,
           descriptionEn: "Build a school management system (real-product clone).",
           descriptionVi: "Xây dựng hệ thống quản lý trường học (clone từ sản phẩm thật).",
         },
       ];
 
       for (const course of courses) {
-        const { name, level, descriptionEn, descriptionVi } = course;
+        const { name, level, image, descriptionEn, descriptionVi } = course;
         const newCourse = await prisma.course.create({
           data: {
             name,
             level: level as UserLevel,
+            image,
             descriptionEn,
             descriptionVi,
           },
