@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 
+import { getUserCourses } from "./course.service";
 import Errors from "../utils/Errors";
 import environment from "../utils/environment";
 
@@ -19,12 +20,15 @@ export const logIn = async ({ email, password }) => {
   const passed = await bcrypt.compare(password, user.password);
   if (!passed) throw Errors.BadCredential;
 
+  const courses = await getUserCourses(user.id);
+
   const data = {
     id: user.id,
     email: user.email,
     name: user.name,
     plan: user.plan,
     level: user.level,
+    courses,
   };
 
   const accessToken = jwt.sign(data, environment.JWT_ACCESS_TOKEN_SECRET_KEY, {
@@ -46,11 +50,14 @@ export const getInfo = async (token: string) => {
   });
   if (!user) throw new Error(Errors.BadCredential);
 
+  const courses = await getUserCourses(userInfo.id);
+
   return {
     id: user.id,
     email: user.email,
     name: user.name,
     plan: user.plan,
     level: user.level,
+    courses,
   };
 };

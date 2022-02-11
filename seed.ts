@@ -110,7 +110,7 @@ const seed = async () => {
         },
         {
           name: "React.js",
-          level: "JUNIOR",
+          level: "SENIOR",
           image: images.reactjs,
           descriptionEn: "Build web UI using the most common JavaScript frontend library React.js.",
           descriptionVi: "Xây dựng giao diện web sử dụng thư viện frontend phổ biến nhất của JavaScript - React.js.",

@@ -59,3 +59,9 @@ export const getLesson = async (userId: string, lessonId: string) => {
 
   return { ...lesson, courseName: userCourse.course.name };
 };
+
+export const getUserCourses = async (userId: string) => {
+  const userCourses = await prisma.userCourse.findMany({ where: { userId } });
+
+  return userCourses.map((userCourse) => ({ courseId: userCourse.courseId, lessonOrder: userCourse.lessonOrder }));
+};
