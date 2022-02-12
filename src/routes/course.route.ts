@@ -8,5 +8,6 @@ router.get("/", controller.get);
 router.get("/:id", controller.getById);
 router.post("/:id", auth, controller.start);
 router.get("/:courseId/lessons/:id", auth, controller.getLesson);
+router.post("/:courseId/lessons/:id", auth, controller.submitLessonAnswer);
 
 export default router;

@@ -60,6 +60,28 @@ export const getLesson = async (userId: string, lessonId: string) => {
   return { ...lesson, courseName: userCourse.course.name };
 };
 
+export const submitLessonAnswer = async (userId: string, lessonId: string, examUrl: string) => {
+  if (!examUrl) throw new Error(Errors.Course.ExamUrlEmpty);
+
+  const lesson = await prisma.lesson.findFirst({ where: { id: lessonId } });
+  if (!lesson) throw new Error(Errors.BadRequest);
+
+  const userCourse = await prisma.userCourse.findFirst({
+    where: { userId, courseId: lesson.courseId },
+    include: { course: true },
+  });
+  if (!userCourse) throw new Error(Errors.Course.NotJoin);
+
+  const lessonAnswer = await prisma.lessonAnswer.findFirst({
+    where: { userCourseId: userCourse.id, lessonId: lesson.id },
+  });
+  if (lessonAnswer) throw new Error(Errors.Course.CantEditExamUrl);
+
+  await prisma.lessonAnswer.create({
+    data: { userCourseId: userCourse.id, lessonId: lesson.id, examUrl },
+  });
+};
+
 export const getUserCourses = async (userId: string) => {
   const userCourses = await prisma.userCourse.findMany({ where: { userId } });
 

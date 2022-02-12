@@ -43,3 +43,15 @@ export const getLesson = async (req: Request, res: Response) => {
     res.status(400).send(err.message);
   }
 };
+
+export const submitLessonAnswer = async (req: Request, res: Response) => {
+  try {
+    const { id: userId } = req;
+    const { id: lessonId } = req.params;
+    const { examUrl } = req.body;
+    await service.submitLessonAnswer(userId, lessonId as string, examUrl);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
