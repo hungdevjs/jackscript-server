@@ -10,6 +10,7 @@ const Errors = {
   },
   Account: {
     NameIsEmpty: "NameIsEmpty",
+    NewPasswordInvalid: "NewPasswordInvalid",
   },
 };
 

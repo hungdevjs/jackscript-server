@@ -69,3 +69,23 @@ export const updateProfile = async (id: string, { name }: { name: string }) => {
     data: { name },
   });
 };
+
+export const changePassword = async (
+  id: string,
+  { password, newPassword }: { password: string; newPassword: string }
+) => {
+  const user = await prisma.user.findFirst({ where: { id } });
+  if (!user) throw new Error(Errors.BadCredential);
+
+  const passed = await bcrypt.compare(password, user.password);
+  if (!passed) throw new Error(Errors.BadCredential);
+
+  const isValidNewPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(newPassword);
+  if (!isValidNewPassword) throw new Error(Errors.Account.NewPasswordInvalid);
+
+  const newHashedPassword = await bcrypt.hash(newPassword, 10);
+  await prisma.user.update({
+    where: { id },
+    data: { password: newHashedPassword },
+  });
+};
