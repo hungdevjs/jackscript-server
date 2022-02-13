@@ -206,6 +206,55 @@ const seed = async () => {
     }
     console.log("Init roadmap successfully");
 
+    console.log("Init FAQs...");
+    const faqs = await prisma.faq.findMany();
+    if (!faqs.length) {
+      await prisma.faq.createMany({
+        data: [
+          {
+            questionEn: "What is JackScript learning model?",
+            questionVi: "Mô hình học của JackScript là gì?",
+            answerEn:
+              "JackScript is an e-learning platform to help students in colleges and universities to learn programming like they are developers. JackScript is suitable for students who want to get a job as a developer after or even when they're in colleges/universities. For the moment, JackScript is totally online and free but we will also open offline classes and give students chances to join us as interns soon.",
+            answerVi:
+              "JackScript là một nền tảng học lập trình online, thích hợp cho các bạn sinh viên đang học tập tại các trường đại học, giúp các bạn có thể học lập trình và thực hành như một developer thực thụ. Các bạn có thể trở thành lập trình viên khi vừa ra trường hoặc ngay cả khi còn đang đi học. Hiện tại JackScript hoàn toàn hoạt động online và miễn phí, tuy nhiên các lớp học offline sẽ được triển khai sớm và các bạn sinh viên sẽ được trao cơ hội học tập và làm việc trong tương lai.",
+          },
+          {
+            questionEn: "What to learn on JackScript?",
+            questionVi: "Học những gì trên JackScript?",
+            answerEn:
+              "Rightnow we have courses for almost levels, from Newbie to Senior (the titles are just used on JackScript platform). The courses are about HTML, CSS and JavaScript. After completing all these courses, you can be a fullstack web developer. Most important, we don't just teach you about technologies, we teach you the basics and we want you to know how to learn and how to control theirs learning progress so you can learn anything you want without mentors in the future.",
+            answerVi:
+              "Có nhiều khóa học với các trình độ khác nhau, từ Newbie đến Senior (các trình độ chỉ sử dụng trên nền tảng JackScript). Các khóa học về HTML, CSS và JavaScript. Sau khi hoàn thành các khóa học, bạn có thể trở thành fullstack web developer. Quan trọng hơn, với JackScript, bạn không chỉ học về công nghệ, bạn sẽ được học cơ bản về công nghệ mà còn được hướng dẫn cách học tập hiểu quả để có thể tự học trong tương lai.",
+          },
+          {
+            questionEn: "Is the knowledge fully complete?",
+            questionVi: "Kiến thức trong các khóa học có đầy đủ không?",
+            answerEn:
+              "In fact, we don't teach you all the things about technologies. We just teach them the basics and the most common things that are used in real developing web applications. So you can quickly familiarize with how developers work in real projects. Remember that you don't need to know everything to be a developer.",
+            answerVi:
+              "Thực tế, JackScript không dạy đầy đủ tất cả mà chỉ dạy những thứ cơ bản và những thứ được sử dụng nhiều nhất trong công việc hàng ngày của một web application developer. Bạn sẽ nhanh chóng quen với các dự án thực tế và không cần những kiến thức không dùng đến. Luôn nhớ rằng bạn không cần biết tất cả để trở thành một developer.",
+          },
+          {
+            questionEn: "How much time it takes to be a developer?",
+            questionVi: "Cần bao nhiêu thời gian để có thể trở thành một developer?",
+            answerEn: "It will take about 4 to 6 months with hard work to follow our roadmap and become a developer.",
+            answerVi:
+              "Thời gian để hoàn thành lộ trình học và trở thành một developer sẽ từ 4 đến 6 tháng nếu bạn chăm chỉ và nghiêm túc.",
+          },
+          {
+            questionEn: "How are learners supported?",
+            questionVi: "Người học được hỗ trợ thế nào?",
+            answerEn:
+              "We have online mentors to support you in our platform, just ask anytime you want. We also check your exam and help you to improve your code. After you complete the roadmap, we will also send your CV to our partners so you can get a job.",
+            answerVi:
+              "JackScript có các mentor sẵn sàng trợ giúp online, cứ hỏi bất cứ khi nào bạn cần giúp đỡ. Chúng tôi cũng kiểm tra bài tập của bạn và giúp bạn viết code tốt hơn. Sau khi hoàn thành lộ trình học, CV của bạn sẽ được gửi đến các đối tác của JackScript và bạn sẽ có cơ hội apply và nhận việc làm.",
+          },
+        ],
+      });
+    }
+    console.log("Init FAQs successfully");
+
     console.log("Init data successfully");
   } catch (err) {
     console.error(err);
