@@ -8,6 +8,9 @@ const Errors = {
     ExamUrlEmpty: "ExamUrlIsEmpty",
     PleaseDoLessonSequentially: "PleaseDoLessonSequentially",
   },
+  Account: {
+    NameIsEmpty: "NameIsEmpty",
+  },
 };
 
 export default Errors;

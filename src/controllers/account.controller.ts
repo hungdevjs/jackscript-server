@@ -23,3 +23,15 @@ export const getInfo = async (req: Request, res: Response) => {
     res.status(400).send({ message: err.message });
   }
 };
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const { id } = req;
+    const { name } = req.body;
+
+    await service.updateProfile(id, { name });
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+};

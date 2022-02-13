@@ -61,3 +61,11 @@ export const getInfo = async (token: string) => {
     courses,
   };
 };
+
+export const updateProfile = async (id: string, { name }: { name: string }) => {
+  if (!name || !name.trim()) throw new Error(Errors.Account.NameIsEmpty);
+  await prisma.user.update({
+    where: { id },
+    data: { name },
+  });
+};
