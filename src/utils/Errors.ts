@@ -6,7 +6,7 @@ const Errors = {
     AlreadyJoined: "YouAlreadyJoinedThisCourse",
     LowLevel: "YourLevelIsLowerThanCourseLevel",
     ExamUrlEmpty: "ExamUrlIsEmpty",
-    CantEditExamUrl: "Can not edit exam url",
+    PleaseDoLessonSequentially: "PleaseDoLessonSequentially",
   },
 };
 

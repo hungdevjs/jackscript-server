@@ -53,11 +53,18 @@ export const getLesson = async (userId: string, lessonId: string) => {
 
   const userCourse = await prisma.userCourse.findFirst({
     where: { userId, courseId: lesson.courseId },
-    include: { course: true },
+    include: { course: true, LessonAnswer: true },
   });
   if (!userCourse) throw new Error(Errors.Course.NotJoin);
 
-  return { ...lesson, courseName: userCourse.course.name };
+  const nextLesson = await prisma.lesson.findFirst({ where: { courseId: lesson.courseId, order: lesson.order + 1 } });
+
+  return {
+    ...lesson,
+    courseName: userCourse.course.name,
+    examUrl: userCourse.LessonAnswer?.find((item) => item.lessonId === lesson.id)?.examUrl,
+    nextLessonId: nextLesson?.id,
+  };
 };
 
 export const submitLessonAnswer = async (userId: string, lessonId: string, examUrl: string) => {
@@ -75,10 +82,21 @@ export const submitLessonAnswer = async (userId: string, lessonId: string, examU
   const lessonAnswer = await prisma.lessonAnswer.findFirst({
     where: { userCourseId: userCourse.id, lessonId: lesson.id },
   });
-  if (lessonAnswer) throw new Error(Errors.Course.CantEditExamUrl);
+  if (lessonAnswer) return;
+
+  if (userCourse.lessonOrder + 1 !== lesson.order) throw new Error(Errors.Course.PleaseDoLessonSequentially);
 
   await prisma.lessonAnswer.create({
     data: { userCourseId: userCourse.id, lessonId: lesson.id, examUrl },
+  });
+
+  await prisma.userCourse.update({
+    where: {
+      id: userCourse.id,
+    },
+    data: {
+      lessonOrder: lesson.order,
+    },
   });
 };
 
