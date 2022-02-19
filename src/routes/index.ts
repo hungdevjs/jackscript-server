@@ -5,6 +5,7 @@ import tipRoute from "./tip.route";
 import roadmapRoute from "./roadmap.route";
 import courseRoute from "./course.route";
 import faqRoute from "./faq.route";
+import cloudinaryRoute from "./cloudinary.route";
 
 const router = Router();
 
@@ -13,5 +14,6 @@ router.use("/v1/tip", tipRoute);
 router.use("/v1/roadmap", roadmapRoute);
 router.use("/v1/courses", courseRoute);
 router.use("/v1/faq", faqRoute);
+router.use("/v1/cloudinary", cloudinaryRoute);
 
 export default router;
