@@ -26,6 +26,7 @@ export const logIn = async ({ email, password }) => {
     id: user.id,
     email: user.email,
     name: user.name,
+    avatar: user.avatar,
     plan: user.plan,
     level: user.level,
     courses,
@@ -56,6 +57,7 @@ export const getInfo = async (token: string) => {
     id: user.id,
     email: user.email,
     name: user.name,
+    avatar: user.avatar,
     plan: user.plan,
     level: user.level,
     courses,
@@ -67,6 +69,14 @@ export const updateProfile = async (id: string, { name }: { name: string }) => {
   await prisma.user.update({
     where: { id },
     data: { name },
+  });
+};
+
+export const updateAvatar = async (id: string, { avatar }: { avatar: string }) => {
+  if (!avatar || !avatar.trim()) throw new Error(Errors.Account.NameIsEmpty);
+  await prisma.user.update({
+    where: { id },
+    data: { avatar },
   });
 };
 

@@ -36,6 +36,18 @@ export const updateProfile = async (req: Request, res: Response) => {
   }
 };
 
+export const updateAvatar = async (req: Request, res: Response) => {
+  try {
+    const { id } = req;
+    const { avatar } = req.body;
+
+    await service.updateAvatar(id, { avatar });
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+};
+
 export const changePassword = async (req: Request, res: Response) => {
   try {
     const { id } = req;
