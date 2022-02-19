@@ -89,3 +89,29 @@ export const changePassword = async (
     data: { password: newHashedPassword },
   });
 };
+
+export const search = async (id: string, searchString: string) => {
+  const user = await prisma.user.findFirst({ where: { id } });
+  if (!user) throw new Error(Errors.BadCredential);
+
+  const userCourses = await getUserCourses(id);
+  const courseIds = userCourses.map((item) => item.courseId);
+  const courses = await prisma.course.findMany({
+    where: { id: { in: courseIds }, name: { contains: searchString.trim(), mode: "insensitive" } },
+  });
+  const lessons = await prisma.lesson.findMany({
+    where: { courseId: { in: courseIds }, nameEn: { contains: searchString.trim(), mode: "insensitive" } },
+    include: { course: true },
+  });
+
+  return {
+    courses: courses.map((item) => ({ id: item.id, name: item.name })),
+    lessons: lessons.map((item) => ({
+      id: item.id,
+      nameEn: item.nameEn,
+      nameVi: item.nameVi,
+      courseId: item.courseId,
+      courseName: item.course.name,
+    })),
+  };
+};

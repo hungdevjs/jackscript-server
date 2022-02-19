@@ -47,3 +47,15 @@ export const changePassword = async (req: Request, res: Response) => {
     res.status(400).send({ message: err.message });
   }
 };
+
+export const search = async (req: Request, res: Response) => {
+  try {
+    const { id } = req;
+    const { searchString } = req.query;
+
+    const data = await service.search(id, searchString as string);
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+};
