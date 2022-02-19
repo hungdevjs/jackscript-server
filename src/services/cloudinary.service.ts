@@ -11,24 +11,35 @@ cloudinary.v2.config({
 
 export const getSamples = async () => {
   try {
-    const result = await cloudinary.v2.api.resources({ type: "upload", prefix: "tips" });
+    const result = await cloudinary.v2.api.resource("avatars/hungszurjpgjz7jryelr");
     console.log(result);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const generateSignature = (folder: string = "", eager: string = "c_pad,h_300,w_400|c_crop,h_200,w_260") => {
-  const timestamp = Math.round(new Date().getTime() / 1000);
+export const getResourse = async (resourcePublicId: string) => {
+  const result = await cloudinary.v2.api.resource(resourcePublicId);
+  return result;
+};
+
+export const generateSignature = (data: object) => {
+  // signature only valid in next 15mins
+  const timestamp = Math.round(new Date().getTime() / 1000) - 45 * 60;
 
   const signature = cloudinary.v2.utils.api_sign_request(
     {
       timestamp: timestamp,
-      eager,
-      folder,
+      ...data,
     },
     environment.CLOUDINARY_API_SECRET
   );
 
-  return { timestamp, signature, cloudName: environment.CLOUDINARY_CLOUD_NAME, apiKey: environment.CLOUDINARY_API_KEY };
+  return {
+    timestamp,
+    signature,
+    cloudName: environment.CLOUDINARY_CLOUD_NAME,
+    apiKey: environment.CLOUDINARY_API_KEY,
+    data,
+  };
 };

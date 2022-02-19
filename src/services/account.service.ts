@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 
 import { getUserCourses } from "./course.service";
+import { generateSignature, getResourse } from "./cloudinary.service";
 import Errors from "../utils/Errors";
 import environment from "../utils/environment";
 
@@ -72,12 +73,21 @@ export const updateProfile = async (id: string, { name }: { name: string }) => {
   });
 };
 
-export const updateAvatar = async (id: string, { avatar }: { avatar: string }) => {
-  if (!avatar || !avatar.trim()) throw new Error(Errors.Account.NameIsEmpty);
-  await prisma.user.update({
-    where: { id },
-    data: { avatar },
-  });
+export const updateAvatar = async (id: string, { avatarPublicId }: { avatarPublicId: string }) => {
+  if (!avatarPublicId || !avatarPublicId.trim()) throw new Error(Errors.BadRequest);
+
+  const user = await prisma.user.findFirst({ where: { id } });
+  if (!user) throw new Error(Errors.BadCredential);
+
+  const newAvatar = await getResourse(avatarPublicId);
+  if (newAvatar) {
+    const { url: avatar } = newAvatar;
+
+    await prisma.user.update({
+      where: { id },
+      data: { avatar, avatarPublicId },
+    });
+  }
 };
 
 export const changePassword = async (
@@ -124,4 +134,22 @@ export const search = async (id: string, searchString: string) => {
       courseName: item.course.name,
     })),
   };
+};
+
+export const generateUpdateAvatarSignature = async (id: string) => {
+  const user = await prisma.user.findFirst({ where: { id } });
+  if (!user) throw new Error(Errors.BadCredential);
+
+  const signData: any = {
+    eager: "c_pad,h_300,w_400|c_crop,h_200,w_260",
+  };
+
+  if (user.avatarPublicId) {
+    signData.public_id = user.avatarPublicId;
+  } else {
+    signData.folder = "avatars";
+  }
+
+  const signedData = generateSignature(signData);
+  return signedData;
 };
